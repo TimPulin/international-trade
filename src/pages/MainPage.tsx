@@ -1,10 +1,14 @@
-import { getTest } from '@/api/server-conections';
+import { getMeteo } from '@/api/server-connections';
 import { useEffect } from 'react';
 
 export default function MainPage() {
+  async function getWeather() {
+    // const result = await getMeteo('saint-petersburg');
+    // console.log('result', result);
+  }
+
   useEffect(() => {
-    const result = getTest();
-    console.log(result);
+    getWeather();
   }, []);
 
   return (

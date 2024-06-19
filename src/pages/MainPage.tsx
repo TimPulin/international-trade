@@ -1,5 +1,6 @@
 import { getMeteo } from '@/api/server-connections';
 import VisualDisplay from '@/components/VisualDisplay';
+import LocationForm from '@/components/location-form/LocationForm';
 import { useEffect } from 'react';
 
 export default function MainPage() {
@@ -16,6 +17,7 @@ export default function MainPage() {
     <div className="container">
       <h1>main</h1>
       <VisualDisplay />
+      <LocationForm />
     </div>
   );
 }

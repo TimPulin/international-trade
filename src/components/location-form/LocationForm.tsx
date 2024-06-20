@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { findPlace } from '@/api/server-connections';
 
 import { Button, Select } from 'antd';
+import selectStyles from './select.module.css';
+import formStyles from './form.module.css';
 
 import { IPlace } from '@/types/place-type';
 import { debounce } from '@/utils/debounce';
@@ -23,23 +25,30 @@ export default function LocationForm() {
     }
   };
 
-  useEffect(() => {
-    console.log(options);
-  }, [options]);
+  function makeOptionsList(data: IPlace[]) {
+    return [
+      ...data.map(({ name, country, place_id }) => ({
+        label: `${name}, ${country}`,
+        value: place_id,
+      })),
+      { label: '', value: '' },
+    ];
+  }
 
   return (
-    <form>
+    <form className={formStyles.form}>
       <Select
-        options={options.map(({ name, place_id }) => ({ label: name, value: place_id }))}
+        options={makeOptionsList(options)}
         showSearch
-        placeholder="Select a person"
+        placeholder="Выберите город"
         optionFilterProp="label"
         onChange={onChange}
         onSearch={debounce(onSearch, 500)}
         filterOption={false}
+        className={selectStyles.select}
       />
 
-      <Button htmlType="submit">Search</Button>
+      <Button htmlType="submit">Показать погоду</Button>
     </form>
   );
 }

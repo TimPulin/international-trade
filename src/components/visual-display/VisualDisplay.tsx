@@ -1,6 +1,11 @@
 import { IMeteo } from '@/types/meteo-type';
 import displayStyle from './visual-display.module.css';
-import iconsStyle from './meteo-icons.module.css';
+import bigMeteoIconsStyle from './meteo-icons.module.css';
+import ReloadIcon from '../icons/ReloadIcon';
+import ButtonBase from '../button/ButtonBase';
+import FavoriteIcon from '../icons/FavoriteIcon';
+import buttonStyles from '../button/button.module.css';
+import Forecast from '../forecast/Forecast';
 
 type VisualDisplayPropsType = {
   meteo: IMeteo | null;
@@ -14,13 +19,29 @@ export default function VisualDisplay(props: VisualDisplayPropsType) {
     return meteo ? `icon_${meteo.current.icon_num}` : '';
   };
 
+  const onClickFavorite = () => {
+    console.log('favorite');
+  };
+
+  const onClickReload = () => {
+    console.log('reload');
+  };
+
+  if (!meteo) return <div>loading...</div>;
+
   return (
     <div className={displayStyle.card}>
       <h3 className={displayStyle.title}>VisualDisplay</h3>
+      <ButtonBase
+        onClick={onClickFavorite}
+        additionalClass={`${buttonStyles.buttonFavorite} ${displayStyle.favorite}`}
+      >
+        <FavoriteIcon />
+      </ButtonBase>
       <div className={displayStyle.body}>
         <div className={`${displayStyle.iconSection} ${displayStyle.section}`}>
           <div
-            className={`${iconsStyle.sprite} ${iconsStyle.icon} ${iconsStyle[getIconName()]}`}
+            className={`${bigMeteoIconsStyle.sprite} ${bigMeteoIconsStyle.icon} ${bigMeteoIconsStyle[getIconName()]}`}
           ></div>
         </div>
         <div className={`${displayStyle.infoSection} ${displayStyle.section}`}>
@@ -28,6 +49,12 @@ export default function VisualDisplay(props: VisualDisplayPropsType) {
           <div>Ветер: {meteo ? `${meteo.current.wind.speed} м/с` : '...'}</div>
           <div>Осадки: {meteo ? `${meteo.current.precipitation.total} мм` : '...'}</div>
         </div>
+        <Forecast forecast={meteo.hourly} />
+      </div>
+      <div className={displayStyle.footer}>
+        <ButtonBase onClick={onClickReload}>
+          <ReloadIcon />
+        </ButtonBase>
       </div>
     </div>
   );

@@ -1,0 +1,155 @@
+.sprite {
+  background-image: url('/icons/weather_icons/set01/small/icons-sprite.png');
+  background-repeat: no-repeat;
+  display: block;
+}
+
+.icon {
+  --size: 38px;
+  width: var(--size);
+  height: var(--size);
+}
+
+.icon_1 {
+  background-position: 0 0;
+}
+
+.icon_2 {
+  background-position: -38px 0;
+}
+
+.icon_3 {
+  background-position: -76px 0;
+}
+
+.icon_4 {
+  background-position: -114px 0;
+}
+
+.icon_5 {
+  background-position: -152px 0;
+}
+
+.icon_6 {
+  background-position: -190px 0;
+}
+
+.icon_7 {
+  background-position: 0 -38px;
+}
+
+.icon_8 {
+  background-position: -38px -38px;
+}
+
+.icon_9 {
+  background-position: -76px -38px;
+}
+
+.icon_10 {
+  background-position: -114px -38px;
+}
+
+.icon_11 {
+  background-position: -152px -38px;
+}
+
+.icon_12 {
+  background-position: -190px -38px;
+}
+
+.icon_13 {
+  background-position: 0 -76px;
+}
+
+.icon_14 {
+  background-position: -38px -76px;
+}
+
+.icon_15 {
+  background-position: -76px -76px;
+}
+
+.icon_16 {
+  background-position: -114px -76px;
+}
+
+.icon_17 {
+  background-position: -152px -76px;
+}
+
+.icon_18 {
+  background-position: -190px -76px;
+}
+
+.icon_19 {
+  background-position: 0 -114px;
+}
+
+.icon_20 {
+  background-position: -38px -114px;
+}
+
+.icon_21 {
+  background-position: -76px -114px;
+}
+
+.icon_22 {
+  background-position: -114px -114px;
+}
+
+.icon_23 {
+  background-position: -152px -114px;
+}
+
+.icon_24 {
+  background-position: -190px -114px;
+}
+
+.icon_25 {
+  background-position: 0 -152px;
+}
+
+.icon_26 {
+  background-position: -38px -152px;
+}
+
+.icon_27 {
+  background-position: -76px -152px;
+}
+
+.icon_28 {
+  background-position: -114px -152px;
+}
+
+.icon_29 {
+  background-position: -152px -152px;
+}
+
+.icon_30 {
+  background-position: -190px -152px;
+}
+
+.icon_31 {
+  background-position: 0 -190px;
+}
+
+.icon_32 {
+  background-position: -38px -190px;
+}
+
+.icon_33 {
+  background-position: -76px -190px;
+}
+
+.icon_34 {
+  background-position: -114px -190px;
+}
+
+.icon_35 {
+  background-position: -152px -190px;
+}
+
+.icon_36 {
+  background-position: -190px -190px;
+}

@@ -1,3 +1,7 @@
+:root {
+  --fill-color: var(--color-primary);
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Oxygen', 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -23,4 +27,10 @@ body {
   min-height: 100vh;
   overflow: hidden;
   box-shadow: 0 0 15px 5px #eaeaea;
+}
+
+.svg {
+  width: 35px;
+  height: auto;
+  fill: var(--fill-color);
 }

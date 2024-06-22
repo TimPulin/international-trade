@@ -1,8 +1,9 @@
 import { getMeteo } from '@/api/server-connections';
-import VisualDisplay from '@/components/visual-display/VisualDisplay';
+import MeteoCard from '@/components/meteo-card/MeteoCard';
 import LocationForm from '@/components/location-form/LocationForm';
 import { IMeteo } from '@/types/meteo-type';
 import { useEffect, useState } from 'react';
+import { MeteoCardContextProvider } from '@/contexts/MeteoCardContext';
 
 export default function MainPage() {
   const [weather, setWeather] = useState<IMeteo | null>(null);
@@ -17,8 +18,10 @@ export default function MainPage() {
 
   return (
     <div className="container">
-      <h1>main</h1>
-      <VisualDisplay meteo={weather} />
+      <h1>Прогноз погоды</h1>
+      <MeteoCardContextProvider>
+        <MeteoCard meteo={weather} />
+      </MeteoCardContextProvider>
       <LocationForm />
     </div>
   );

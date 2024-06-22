@@ -1,11 +1,18 @@
 .item {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   gap: 5px;
-
+  padding: 10px;
+  border-radius: 10px;
   scroll-snap-align: start;
+
+  transition: background-color 0.4s ease-in-out;
+}
+
+.item:hover {
+  background-color: var(--color-grey-light);
 }
 
 .date {

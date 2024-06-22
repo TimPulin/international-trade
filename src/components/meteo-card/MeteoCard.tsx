@@ -1,23 +1,22 @@
 import { IMeteo } from '@/types/meteo-type';
 import displayStyle from './visual-display.module.css';
-import bigMeteoIconsStyle from './meteo-icons.module.css';
+
 import ReloadIcon from '../icons/ReloadIcon';
 import ButtonBase from '../button/ButtonBase';
 import FavoriteIcon from '../icons/FavoriteIcon';
 import buttonStyles from '../button/button.module.css';
 import Forecast from '../forecast/Forecast';
+import MainWidget from './MainWidget';
+import { useEffect, useState } from 'react';
+import { useMeteoCard } from '@/contexts/MeteoCardContext';
 
-type VisualDisplayPropsType = {
+type MeteoCardPropsType = {
   meteo: IMeteo | null;
 };
 
-export default function VisualDisplay(props: VisualDisplayPropsType) {
+export default function MeteoCard(props: MeteoCardPropsType) {
   const { meteo } = props;
-  console.log(meteo);
-
-  const getIconName = () => {
-    return meteo ? `icon_${meteo.current.icon_num}` : '';
-  };
+  const { setMainWidgetData, mainWidgetData } = useMeteoCard();
 
   const onClickFavorite = () => {
     console.log('favorite');
@@ -27,7 +26,21 @@ export default function VisualDisplay(props: VisualDisplayPropsType) {
     console.log('reload');
   };
 
-  if (!meteo) return <div>loading...</div>;
+  useEffect(() => {
+    if (meteo !== null && meteo !== undefined) {
+      setMainWidgetData({
+        iconNumber: meteo.current.icon_num,
+        temperature: meteo.current.temperature,
+        wind: meteo.current.wind,
+        precipitation: meteo.current.precipitation,
+      });
+    } else {
+      setMainWidgetData(null);
+    }
+  }, [meteo]);
+
+  if (!meteo || !mainWidgetData)
+    return <div className={`${displayStyle.cardLoading} ${displayStyle.card}`}>loading...</div>;
 
   return (
     <div className={displayStyle.card}>
@@ -39,16 +52,7 @@ export default function VisualDisplay(props: VisualDisplayPropsType) {
         <FavoriteIcon />
       </ButtonBase>
       <div className={displayStyle.body}>
-        <div className={`${displayStyle.iconSection} ${displayStyle.section}`}>
-          <div
-            className={`${bigMeteoIconsStyle.sprite} ${bigMeteoIconsStyle.icon} ${bigMeteoIconsStyle[getIconName()]}`}
-          ></div>
-        </div>
-        <div className={`${displayStyle.infoSection} ${displayStyle.section}`}>
-          <div>Температура: {meteo ? `${meteo.current.temperature}°C` : '...'}</div>
-          <div>Ветер: {meteo ? `${meteo.current.wind.speed} м/с` : '...'}</div>
-          <div>Осадки: {meteo ? `${meteo.current.precipitation.total} мм` : '...'}</div>
-        </div>
+        <MainWidget />
         <Forecast forecast={meteo.hourly} />
       </div>
       <div className={displayStyle.footer}>

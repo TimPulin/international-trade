@@ -41,8 +41,8 @@ export interface ISituationOnDate {
   summary: string;
   temperature: number;
   wind: IWind;
-  cloud_cover: ICloudCover;
   precipitation: IPrecipitation;
+  cloud_cover: ICloudCover;
 }
 
 export interface ICloudCover {

@@ -8,6 +8,18 @@
   background-color: transparent;
 }
 
+.button:focus-visible {
+  outline: 1px solid var(--color-primary-light);
+}
+
 .buttonFavorite {
+  --fill-color: var(--color-grey-shade);
+  --hover-color: var(--color-third-light);
+  --active-color: var(--color-third-shade);
+}
+
+.buttonFavoriteActive {
   --fill-color: var(--color-third);
+  --hover-color: var(--color-third-shade);
+  --active-color: var(--color-third-light);
 }

@@ -1,22 +1,30 @@
 .forecast {
   width: 100%;
 }
-
-.list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
+.slider {
+  cursor: grab;
+  position: relative;
 
   overflow: hidden;
   overflow-x: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
   overflow-y: scroll;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.grabbing {
+  cursor: grabbing;
 }
 
 .list::-webkit-scrollbar {

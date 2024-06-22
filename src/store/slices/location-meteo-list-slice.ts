@@ -11,7 +11,7 @@ type LocationMeteoType = {
 };
 
 type LocationMeteoListState = {
-  locationMeteoList: LocationMeteoType[];
+  value: LocationMeteoType[];
 };
 
 type AddLocationMeteoActionType = {
@@ -51,7 +51,7 @@ type SetFavoriteActionType = {
 };
 
 const initialState: LocationMeteoListState = {
-  locationMeteoList: [],
+  value: [],
 };
 
 export const locationMeteoListSlice = createSlice({
@@ -59,39 +59,37 @@ export const locationMeteoListSlice = createSlice({
   initialState,
   reducers: {
     addLocationMeteo(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
-      state.locationMeteoList.push(action.payload);
+      state.value.push(action.payload);
     },
 
     removeLocationMeteo(state: LocationMeteoListState, action: RemoveLocationMeteoActionType) {
-      state.locationMeteoList = state.locationMeteoList.filter(
-        (item) => item.uniqueId !== action.payload.uniqueId
-      );
+      state.value = state.value.filter((item) => item.uniqueId !== action.payload.uniqueId);
     },
 
     setIsLocationLoading(state: LocationMeteoListState, action: SetIsLocationLoadingActionType) {
-      const locationIndex = state.locationMeteoList.findIndex(
+      const locationIndex = state.value.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
       if (locationIndex !== -1) {
-        state.locationMeteoList[locationIndex].isLoading = action.payload.isLoading;
+        state.value[locationIndex].isLoading = action.payload.isLoading;
       }
     },
 
     setMeteo(state: LocationMeteoListState, action: SetMeteoActionType) {
-      const locationIndex = state.locationMeteoList.findIndex(
+      const locationIndex = state.value.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
       if (locationIndex !== -1) {
-        state.locationMeteoList[locationIndex].meteo = action.payload.meteo;
+        state.value[locationIndex].meteo = action.payload.meteo;
       }
     },
 
     setFavorite(state: LocationMeteoListState, action: SetFavoriteActionType) {
-      const locationIndex = state.locationMeteoList.findIndex(
+      const locationIndex = state.value.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
       if (locationIndex !== -1) {
-        state.locationMeteoList[locationIndex].isFavorite = action.payload.isFavorite;
+        state.value[locationIndex].isFavorite = action.payload.isFavorite;
       }
     },
   },

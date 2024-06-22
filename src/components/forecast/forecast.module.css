@@ -1,18 +1,9 @@
 .forecast {
   width: 100%;
 }
-.slider {
-  cursor: grab;
-  position: relative;
-
-  overflow: hidden;
-  overflow-x: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  overflow-y: scroll;
-}
 
 .list {
+  width: 100%;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -21,6 +12,11 @@
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
+
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .grabbing {

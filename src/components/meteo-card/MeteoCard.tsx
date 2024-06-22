@@ -6,16 +6,16 @@ import ButtonBase from '../button/ButtonBase';
 import FavoriteIcon from '../icons/FavoriteIcon';
 import buttonStyles from '../button/button.module.css';
 import Forecast from '../forecast/Forecast';
-import ManWidget, { ManWidgetPropsType } from './ManWidget';
+import MainWidget, { MainWidgetPropsType } from './MainWidget';
 import { useEffect, useState } from 'react';
 
-type VisualDisplayPropsType = {
+type MeteoCardPropsType = {
   meteo: IMeteo | null;
 };
 
-export default function VisualDisplay(props: VisualDisplayPropsType) {
+export default function MeteoCard(props: MeteoCardPropsType) {
   const { meteo } = props;
-  const [mainWidgetMeteo, setMainWidgetMeteo] = useState<ManWidgetPropsType | null>(null);
+  const [mainWidgetMeteo, setMainWidgetMeteo] = useState<MainWidgetPropsType | null>(null);
 
   const onClickFavorite = () => {
     console.log('favorite');
@@ -40,7 +40,8 @@ export default function VisualDisplay(props: VisualDisplayPropsType) {
     }
   }, [meteo]);
 
-  if (!meteo || !mainWidgetMeteo) return <div>loading...</div>;
+  if (!meteo || !mainWidgetMeteo)
+    return <div className={`${displayStyle.cardLoading} ${displayStyle.card}`}>loading...</div>;
 
   return (
     <div className={displayStyle.card}>
@@ -52,7 +53,7 @@ export default function VisualDisplay(props: VisualDisplayPropsType) {
         <FavoriteIcon />
       </ButtonBase>
       <div className={displayStyle.body}>
-        <ManWidget meteo={mainWidgetMeteo?.meteo} />
+        <MainWidget meteo={mainWidgetMeteo?.meteo} />
         <Forecast forecast={meteo.hourly} />
       </div>
       <div className={displayStyle.footer}>

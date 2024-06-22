@@ -1,0 +1,25 @@
+.widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.grid {
+  display: inline-grid;
+  grid-template-columns: repeat(2, width);
+  column-gap: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+.title {
+  grid-column: 1 / span 2;
+  width: 100%;
+}
+
+.info {
+  font-size: 1.2rem;
+  line-height: 1.2;
+}

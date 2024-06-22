@@ -10,17 +10,18 @@
   box-shadow: 0 0 10px 1px var(--color-primary-light);
 }
 
+.cardLoading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .title {
   text-align: center;
 }
 
 .body {
   padding: 10px;
-}
-
-.infoSection {
-  font-size: 1.2rem;
-  line-height: 1.2;
 }
 
 .btnFavorite {

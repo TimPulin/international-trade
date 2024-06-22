@@ -1,8 +1,9 @@
 import { IMeteo } from '@/types/meteo-type';
 import { createSlice } from '@reduxjs/toolkit';
+import { createInitialLocationMeteo } from './create-initial-location-meteo';
 
 export type LocationMeteoType = {
-  uniqueId: string;
+  uniqueId: number;
   locationId: string;
   locationName: string;
   isFavorite: boolean;
@@ -11,7 +12,10 @@ export type LocationMeteoType = {
 };
 
 type LocationMeteoListState = {
-  value: LocationMeteoType[];
+  value: {
+    activeLocationMeteoUniqueId: number;
+    locationMeteoList: LocationMeteoType[];
+  };
 };
 
 type AddLocationMeteoActionType = {
@@ -19,17 +23,17 @@ type AddLocationMeteoActionType = {
   payload: LocationMeteoType;
 };
 
-type RemoveLocationMeteoActionType = {
+type FindByIdAction = {
   type: string;
   payload: {
-    uniqueId: string;
+    uniqueId: number;
   };
 };
 
 type SetIsLocationLoadingActionType = {
   type: string;
   payload: {
-    uniqueId: string;
+    uniqueId: number;
     isLoading: boolean;
   };
 };
@@ -37,7 +41,7 @@ type SetIsLocationLoadingActionType = {
 type SetMeteoActionType = {
   type: string;
   payload: {
-    uniqueId: string;
+    uniqueId: number;
     meteo: IMeteo | null;
   };
 };
@@ -45,13 +49,17 @@ type SetMeteoActionType = {
 type SetFavoriteActionType = {
   type: string;
   payload: {
-    uniqueId: string;
+    uniqueId: number;
     isFavorite: boolean;
   };
 };
+const initialLocationMeteo = createInitialLocationMeteo();
 
 const initialState: LocationMeteoListState = {
-  value: [],
+  value: {
+    activeLocationMeteoUniqueId: initialLocationMeteo.uniqueId,
+    locationMeteoList: [initialLocationMeteo],
+  },
 };
 
 export const locationMeteoListSlice = createSlice({
@@ -59,48 +67,74 @@ export const locationMeteoListSlice = createSlice({
   initialState,
   reducers: {
     addLocationMeteo(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
-      state.value.push(action.payload);
+      state.value.locationMeteoList.push(action.payload);
     },
 
-    removeLocationMeteo(state: LocationMeteoListState, action: RemoveLocationMeteoActionType) {
-      state.value = state.value.filter((item) => item.uniqueId !== action.payload.uniqueId);
+    addEmptyLocationMeteo(state: LocationMeteoListState) {
+      const initialLocationMeteo = createInitialLocationMeteo();
+      state.value.locationMeteoList.push(initialLocationMeteo);
+      state.value.activeLocationMeteoUniqueId = initialLocationMeteo.uniqueId;
+    },
+
+    updateLocationMeteo(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
+      const locationIndex = state.value.locationMeteoList.findIndex(
+        (item) => item.uniqueId === action.payload.uniqueId
+      );
+      console.log(locationIndex);
+
+      if (locationIndex !== -1) {
+        state.value.locationMeteoList[locationIndex] = action.payload;
+      }
+    },
+
+    removeLocationMeteo(state: LocationMeteoListState, action: FindByIdAction) {
+      state.value.locationMeteoList = state.value.locationMeteoList.filter(
+        (item) => item.uniqueId !== action.payload.uniqueId
+      );
     },
 
     setIsLocationLoading(state: LocationMeteoListState, action: SetIsLocationLoadingActionType) {
-      const locationIndex = state.value.findIndex(
+      const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
       if (locationIndex !== -1) {
-        state.value[locationIndex].isLoading = action.payload.isLoading;
+        state.value.locationMeteoList[locationIndex].isLoading = action.payload.isLoading;
       }
     },
 
     setMeteo(state: LocationMeteoListState, action: SetMeteoActionType) {
-      const locationIndex = state.value.findIndex(
+      const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
       if (locationIndex !== -1) {
-        state.value[locationIndex].meteo = action.payload.meteo;
+        state.value.locationMeteoList[locationIndex].meteo = action.payload.meteo;
       }
     },
 
     setFavorite(state: LocationMeteoListState, action: SetFavoriteActionType) {
-      const locationIndex = state.value.findIndex(
+      const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
       if (locationIndex !== -1) {
-        state.value[locationIndex].isFavorite = action.payload.isFavorite;
+        state.value.locationMeteoList[locationIndex].isFavorite = action.payload.isFavorite;
       }
+    },
+
+    setActiveLocationMeteoUniqueId(state: LocationMeteoListState, action: FindByIdAction) {
+      state.value.activeLocationMeteoUniqueId = action.payload.uniqueId;
     },
   },
 });
 
 export const {
   addLocationMeteo,
+  addEmptyLocationMeteo,
+  updateLocationMeteo,
   removeLocationMeteo,
   setIsLocationLoading,
   setMeteo,
   setFavorite,
+  setActiveLocationMeteoUniqueId,
 } = locationMeteoListSlice.actions;
 export default locationMeteoListSlice.actions;
 

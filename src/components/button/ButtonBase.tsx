@@ -3,7 +3,7 @@ import styles from './button.module.css';
 type ButtonBasePropsType = {
   text?: string;
   children?: React.ReactNode;
-  onClick: () => void;
+  onClick: (arg: any) => void;
   ariaLabel?: string;
   additionalClass?: string;
 };
@@ -14,7 +14,7 @@ export default function ButtonBase(props: ButtonBasePropsType) {
     <button
       aria-label={ariaLabel}
       onClick={onClick}
-      className={`${styles.button} ${additionalClass}`}
+      className={`${styles.button} ${additionalClass ? additionalClass : ''}`}
     >
       {children}
       {text}

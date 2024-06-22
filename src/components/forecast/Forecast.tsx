@@ -8,10 +8,12 @@ type ForecastPropsType = {
 
 export default function Forecast(props: ForecastPropsType) {
   const { forecast } = props;
+
   return (
     <div className={forecastStyle.forecast}>
       <h3>Прогноз</h3>
-      <ul className={forecastStyle.list}>
+
+      <ul className={`${forecastStyle.list}`}>
         {forecast.data.map((item) => (
           <ForecastItem key={item.date} item={item} />
         ))}

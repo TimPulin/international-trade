@@ -1,7 +1,7 @@
 import { IMeteo } from '@/types/meteo-type';
 import { createSlice } from '@reduxjs/toolkit';
 
-type LocationMeteoType = {
+export type LocationMeteoType = {
   uniqueId: string;
   locationId: string;
   locationName: string;

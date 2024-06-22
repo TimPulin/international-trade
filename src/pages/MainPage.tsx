@@ -2,19 +2,16 @@ import { getMeteo } from '@/api/server-connections';
 import MeteoCard from '@/components/meteo-card/MeteoCard';
 import LocationForm from '@/components/location-form/LocationForm';
 import { IMeteo } from '@/types/meteo-type';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { MeteoCardContextProvider } from '@/contexts/MeteoCardContext';
 
 export default function MainPage() {
   const [weather, setWeather] = useState<IMeteo | null>(null);
-  async function getWeather() {
-    const result = await getMeteo('59.93863N,30.31413E');
+
+  async function getWeather(city: string) {
+    const result = await getMeteo(city);
     setWeather(result.data);
   }
-
-  useEffect(() => {
-    getWeather();
-  }, []);
 
   return (
     <div className="container">
@@ -22,7 +19,7 @@ export default function MainPage() {
       <MeteoCardContextProvider>
         <MeteoCard meteo={weather} />
       </MeteoCardContextProvider>
-      <LocationForm />
+      <LocationForm onSubmit={getWeather} />
     </div>
   );
 }

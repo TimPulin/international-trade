@@ -1,0 +1,36 @@
+:root {
+  --fill-color: var(--color-primary);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Oxygen', 'Ubuntu', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-grey-light);
+  color: var(--color-black);
+}
+
+.body-lock {
+  overflow: hidden;
+}
+
+.overlay {
+  z-index: -9999;
+  backdrop-filter: blur(0);
+  transition: backdrop-filter 0.4s ease-in-out;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 var(--padding-base);
+  max-width: var(--medium-screen);
+  min-height: 100vh;
+  overflow: hidden;
+  box-shadow: 0 0 15px 5px #eaeaea;
+}
+
+.svg {
+  width: 35px;
+  height: auto;
+  fill: var(--fill-color);
+}

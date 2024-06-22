@@ -1,0 +1,27 @@
+:root {
+  /* screen */
+  --medium-screen: 991px;
+  --screen-width: 100vm;
+  --screen-real-width: 100vw;
+
+  /* colors */
+  --color-primary: #6f0aaa;
+  --color-primary-shade: #47036f;
+  --color-primary-light: #ac66d5;
+
+  --color-secondary: #2dd700;
+  --color-secondary-shade: #1d8c00;
+  --color-secondary-light: #85eb6a;
+
+  --color-third: #ff9c00;
+  --color-third-shade: #a66500;
+  --color-third-light: #ffc973;
+
+  --color-grey-light: #eaeaea;
+  --color-black: #333;
+  --color-red: #ff3e3e;
+
+  /* отступы */
+  --margin-base: 20px;
+  --padding-base: 20px;
+}

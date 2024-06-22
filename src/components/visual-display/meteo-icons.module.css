@@ -1,0 +1,133 @@
+.sprite {
+  background-image: url('/icons/weather_icons/set01/big/icons-sprite.png');
+  background-repeat: no-repeat;
+  display: block;
+}
+
+.icon {
+  --size: 70px;
+  width: var(--size);
+  height: var(--size);
+}
+
+.icon_1 {
+  background-position: 0 0;
+}
+
+.icon_2 {
+  background-position: -70px 0;
+}
+
+.icon_3 {
+  background-position: -140px 0;
+}
+
+.icon_4 {
+  background-position: -210px 0;
+}
+
+.icon_5 {
+  background-position: -280px 0;
+}
+
+.icon_6 {
+  background-position: -350px 0;
+}
+
+.icon_7 {
+  background-position: 0 -70px;
+}
+
+.icon_8 {
+  background-position: -70px -70px;
+}
+
+.icon_9 {
+  background-position: -140px -70px;
+}
+
+.icon_10 {
+  background-position: -210px -70px;
+}
+
+.icon_11 {
+  background-position: -280px -70px;
+}
+
+.icon_12 {
+  background-position: -350px -70px;
+}
+
+.icon_13 {
+  background-position: 0 -140px;
+}
+.icon_14 {
+  background-position: -70px -140px;
+}
+.icon_15 {
+  background-position: -140px -140px;
+}
+.icon_16 {
+  background-position: -210px -140px;
+}
+.icon_17 {
+  background-position: -280px -140px;
+}
+.icon_18 {
+  background-position: -350px -140px;
+}
+.icon_19 {
+  background-position: 0 -210px;
+}
+.icon_20 {
+  background-position: -70px -210px;
+}
+.icon_21 {
+  background-position: -140px -210px;
+}
+.icon_22 {
+  background-position: -210px -210px;
+}
+.icon_23 {
+  background-position: -280px -210px;
+}
+.icon_24 {
+  background-position: -350px -210px;
+}
+
+.icon_25 {
+  background-position: 0 -280px;
+}
+.icon_26 {
+  background-position: -70px -280px;
+}
+.icon_27 {
+  background-position: -140px -280px;
+}
+.icon_28 {
+  background-position: -210px -280px;
+}
+.icon_29 {
+  background-position: -280px -280px;
+}
+.icon_30 {
+  background-position: -350px -280px;
+}
+.icon_31 {
+  background-position: 0 -350px;
+}
+.icon_32 {
+  background-position: -70px -350px;
+}
+.icon_33 {
+  background-position: -140px -350px;
+}
+.icon_34 {
+  background-position: -210px -350px;
+}
+.icon_35 {
+  background-position: -280px -350px;
+}
+.icon_36 {
+  background-position: -350px -350px;
+}

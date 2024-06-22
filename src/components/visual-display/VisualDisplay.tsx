@@ -34,7 +34,7 @@ export default function VisualDisplay(props: VisualDisplayPropsType) {
       <h3 className={displayStyle.title}>VisualDisplay</h3>
       <ButtonBase
         onClick={onClickFavorite}
-        additionalClass={`${buttonStyles.buttonFavorite} ${displayStyle.favorite}`}
+        additionalClass={`${buttonStyles.buttonFavorite}  ${displayStyle.btnFavorite}`}
       >
         <FavoriteIcon />
       </ButtonBase>

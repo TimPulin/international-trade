@@ -1,5 +1,7 @@
 :root {
-  --fill-color: var(--color-primary);
+  --fill-color: var(--color-primary-light);
+  --hover-color: var(--color-primary);
+  --active-color: var(--color-primary-shade);
 }
 
 body {
@@ -33,4 +35,12 @@ body {
   width: 35px;
   height: auto;
   fill: var(--fill-color);
+
+  transition: fill 0.4s ease;
+}
+*:hover > .svg {
+  fill: var(--hover-color);
+}
+*:active > .svg {
+  fill: var(--active-color);
 }

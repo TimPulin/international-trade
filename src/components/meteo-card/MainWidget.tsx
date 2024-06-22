@@ -1,6 +1,7 @@
 import bigMeteoIconsStyle from './meteo-icons.module.css';
 import widgetStyles from './main-widget.module.css';
 import { useMeteoCard } from '@/contexts/MeteoCardContext';
+import { formatDateFromString } from '@/utils/format-date';
 
 export default function MainWidget() {
   const { mainWidgetData } = useMeteoCard();
@@ -12,7 +13,7 @@ export default function MainWidget() {
     <div className={widgetStyles.widget}>
       <div className={widgetStyles.grid}>
         <h3 className={widgetStyles.title}>
-          {mainWidgetData?.date ? mainWidgetData.date : 'Прямо сейчас'}
+          {mainWidgetData?.date ? formatDateFromString(mainWidgetData.date) : 'Прямо сейчас'}
         </h3>
         <div>
           <div

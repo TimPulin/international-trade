@@ -1,8 +1,11 @@
-import { ISituationOnDate } from '@/types/meteo-type';
+import { useMeteoCard } from '@/contexts/MeteoCardContext';
+
+import ButtonBase from '../button/ButtonBase';
+
 import itemStyle from './item.module.css';
 import iconStyle from './small-meteo-icons.module.css';
-import ButtonBase from '../button/ButtonBase';
-import { useMeteoCard } from '@/contexts/MeteoCardContext';
+import { ISituationOnDate } from '@/types/meteo-type';
+import { formatDateFromString } from '@/utils/format-date';
 
 type ForecastItemPropsType = {
   item: ISituationOnDate;
@@ -11,12 +14,6 @@ type ForecastItemPropsType = {
 export default function ForecastItem(props: ForecastItemPropsType) {
   const { item } = props;
   const { setMainWidgetData } = useMeteoCard();
-
-  const getDate = () => {
-    const date = new Date(item.date);
-    return `${date.getDate().toString().padStart(2, '0')}.${(date.getMonth() + 1).toString().padStart(2, '0')} 
-        ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-  };
 
   const sendDataToMainWidget = () => {
     setMainWidgetData({
@@ -36,7 +33,7 @@ export default function ForecastItem(props: ForecastItemPropsType) {
             className={`${iconStyle.sprite} ${iconStyle.icon} ${iconStyle[`icon_${item.icon}`]}`}
           ></div>
           {item.temperature}°C
-          <div className={itemStyle.date}>{getDate()}</div>
+          <div className={itemStyle.date}>{formatDateFromString(item.date)}</div>
         </>
       </ButtonBase>
     </li>

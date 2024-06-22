@@ -5,21 +5,34 @@ import { Button, Select } from 'antd';
 import selectStyles from './select.module.css';
 import formStyles from './form.module.css';
 
-import { IPlace } from '@/types/place-type';
 import { debounce } from '@/utils/debounce';
+import { IPlace } from '@/types/place-type';
+
+export type OptionType = {
+  label: string;
+  value: string;
+};
+
+type OptionSelectType = OptionType | OptionType[];
 
 type LocationFormType = {
-  onSubmit: (city: string) => void;
+  onSubmit: (option: OptionType) => void;
 };
 
 export default function LocationForm(props: LocationFormType) {
   const { onSubmit } = props;
 
   const [options, setOptions] = useState<IPlace[]>([]);
-  const cityRef = useRef<string | null>(null);
+  const cityRef = useRef<OptionType | null>(null);
 
-  const onChange = (value: string) => {
-    cityRef.current = value;
+  const onChange = (value: string, option: OptionSelectType) => {
+    let label = '';
+    if (Array.isArray(option)) {
+      label = option[0].label;
+    } else {
+      label = option.label;
+    }
+    cityRef.current = { value, label };
   };
 
   const onSearch = async (value: string) => {
@@ -56,7 +69,7 @@ export default function LocationForm(props: LocationFormType) {
         showSearch
         placeholder="Выберите город"
         optionFilterProp="label"
-        onChange={onChange}
+        onChange={(value, option) => onChange(value, option)}
         onSearch={debounce(onSearch, 500)}
         filterOption={false}
         className={selectStyles.select}

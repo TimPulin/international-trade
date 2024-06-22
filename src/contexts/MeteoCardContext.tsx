@@ -19,7 +19,7 @@ export const MeteoCardContext = createContext<MeteoCardContextType | null>(null)
 export function useMeteoCard() {
   const context = useContext(MeteoCardContext);
   if (!context) {
-    throw new Error('useMeteoCardContext must be used within a MeteoCardContextProvider');
+    throw new Error('useMeteoCard используй внутри MeteoCardContextProvider');
   }
   return context;
 }

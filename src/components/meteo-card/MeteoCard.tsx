@@ -7,7 +7,7 @@ import FavoriteIcon from '../icons/FavoriteIcon';
 import buttonStyles from '../button/button.module.css';
 import Forecast from '../forecast/Forecast';
 import MainWidget from './MainWidget';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useMeteoCard } from '@/contexts/MeteoCardContext';
 
 type MeteoCardPropsType = {
@@ -40,7 +40,9 @@ export default function MeteoCard(props: MeteoCardPropsType) {
   }, [meteo]);
 
   if (!meteo || !mainWidgetData)
-    return <div className={`${displayStyle.cardLoading} ${displayStyle.card}`}>loading...</div>;
+    return (
+      <div className={`${displayStyle.cardEmpty} ${displayStyle.card}`}>Что там с погодой?</div>
+    );
 
   return (
     <div className={displayStyle.card}>

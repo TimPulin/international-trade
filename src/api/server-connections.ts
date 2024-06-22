@@ -5,8 +5,8 @@ const token = import.meta.env.VITE_METEO_SOURCE_TOKEN;
 import { meteo } from '../../mok/meteo';
 
 export function getMeteo(placeId: string) {
-  //   return meteoSourceAPI.get(`/point?place_id=${placeId}&key=${token}`);
-  return { data: meteo };
+  return meteoSourceAPI.get(`/point?place_id=${placeId}&key=${token}`);
+  //   return { data: meteo };
 }
 
 export function findPlace(text: string) {

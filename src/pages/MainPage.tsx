@@ -1,6 +1,10 @@
 import { useDispatch } from 'react-redux';
 
-import { setMeteo, updateLocationMeteo } from '@/store/slices/location-meteo-list-slice';
+import {
+  setFavorite,
+  setMeteo,
+  updateLocationMeteo,
+} from '@/store/slices/location-meteo-list-slice';
 import { useActiveLocationMeteoUniqueId } from '@/store/selectors';
 
 import { MeteoCardContextProvider } from '@/contexts/MeteoCardContext';
@@ -30,6 +34,10 @@ export default function MainPage() {
     );
   }
 
+  function updateFavorite() {
+    dispatch(setFavorite({ uniqueId: activeLocationMeteoUniqueId }));
+  }
+
   async function updateMeteoLocal(cityId: string) {
     const result = await getMeteo(cityId);
     dispatch(setMeteo({ uniqueId: activeLocationMeteoUniqueId, meteo: result.data }));
@@ -39,7 +47,7 @@ export default function MainPage() {
     <div className="container">
       <h1>Прогноз погоды</h1>
       <MeteoCardContextProvider>
-        <LocationMeteoList onReload={updateMeteoLocal} />
+        <LocationMeteoList onReload={updateMeteoLocal} onFavorite={updateFavorite} />
       </MeteoCardContextProvider>
       <LocationForm onSubmit={updateLocationMeteoLocal} />
     </div>

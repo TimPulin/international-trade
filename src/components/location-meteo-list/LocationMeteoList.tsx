@@ -14,10 +14,11 @@ import {
 
 type LocationMeteoListType = {
   onReload: (cityId: string) => void;
+  onFavorite: () => void;
 };
 
 export default function LocationMeteoList(props: LocationMeteoListType) {
-  const { onReload } = props;
+  const { onReload, onFavorite } = props;
   const dispatch = useDispatch();
   const locationMeteoList = useLocationMeteoList();
   const [tabIndex, setTabIndex] = useState(0);
@@ -53,7 +54,11 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
       <ul className={locationMeteoStyles.list}>
         {locationMeteoList[tabIndex] && (
           <li key={locationMeteoList[tabIndex].uniqueId}>
-            <MeteoCard locationMeteo={locationMeteoList[tabIndex]} onReload={onReload} />
+            <MeteoCard
+              locationMeteo={locationMeteoList[tabIndex]}
+              onReload={onReload}
+              onFavorite={onFavorite}
+            />
           </li>
         )}
       </ul>

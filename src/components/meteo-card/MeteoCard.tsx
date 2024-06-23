@@ -1,4 +1,3 @@
-import { IMeteo } from '@/types/meteo-type';
 import displayStyle from './visual-display.module.css';
 
 import ReloadIcon from '../icons/ReloadIcon';
@@ -14,16 +13,13 @@ import { LocationMeteoType } from '@/store/slices/location-meteo-list-slice';
 type MeteoCardPropsType = {
   locationMeteo: LocationMeteoType;
   onReload: (cityId: string) => void;
+  onFavorite: () => void;
 };
 
 export default function MeteoCard(props: MeteoCardPropsType) {
-  const { locationMeteo, onReload } = props;
+  const { locationMeteo, onReload, onFavorite } = props;
 
   const { setMainWidgetData, mainWidgetData } = useMeteoCard();
-
-  const onClickFavorite = () => {
-    console.log('favorite');
-  };
 
   useEffect(() => {
     if (locationMeteo.meteo !== null && locationMeteo.meteo !== undefined) {
@@ -46,8 +42,9 @@ export default function MeteoCard(props: MeteoCardPropsType) {
   return (
     <div className={displayStyle.card}>
       <ButtonBase
-        onClick={onClickFavorite}
-        additionalClass={`${buttonStyles.buttonFavorite}  ${displayStyle.btnFavorite}`}
+        onClick={() => onFavorite()}
+        additionalClass={`${buttonStyles.buttonFavorite}  ${displayStyle.buttonFavorite} 
+        ${locationMeteo.isFavorite ? buttonStyles.buttonFavoriteActive : ''}`}
       >
         <FavoriteIcon />
       </ButtonBase>

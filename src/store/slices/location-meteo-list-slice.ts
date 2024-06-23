@@ -46,13 +46,6 @@ type SetMeteoActionType = {
   };
 };
 
-type SetFavoriteActionType = {
-  type: string;
-  payload: {
-    uniqueId: number;
-    isFavorite: boolean;
-  };
-};
 const initialLocationMeteo = createInitialLocationMeteo();
 
 const initialState: LocationMeteoListState = {
@@ -110,12 +103,13 @@ export const locationMeteoListSlice = createSlice({
       }
     },
 
-    setFavorite(state: LocationMeteoListState, action: SetFavoriteActionType) {
+    setFavorite(state: LocationMeteoListState, action: FindByIdAction) {
       const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
       if (locationIndex !== -1) {
-        state.value.locationMeteoList[locationIndex].isFavorite = action.payload.isFavorite;
+        state.value.locationMeteoList[locationIndex].isFavorite =
+          !state.value.locationMeteoList[locationIndex].isFavorite;
       }
     },
 

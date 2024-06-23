@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 
-import { updateLocationMeteo } from '@/store/slices/location-meteo-list-slice';
+import { setMeteo, updateLocationMeteo } from '@/store/slices/location-meteo-list-slice';
 import { useActiveLocationMeteoUniqueId } from '@/store/selectors';
 
 import { MeteoCardContextProvider } from '@/contexts/MeteoCardContext';
@@ -15,7 +15,7 @@ export default function MainPage() {
   const dispatch = useDispatch();
   const activeLocationMeteoUniqueId = useActiveLocationMeteoUniqueId();
 
-  async function getWeather(option: OptionType) {
+  async function updateLocationMeteoLocal(option: OptionType) {
     const result = await getMeteo(option.value);
 
     dispatch(
@@ -30,13 +30,18 @@ export default function MainPage() {
     );
   }
 
+  async function updateMeteoLocal(cityId: string) {
+    const result = await getMeteo(cityId);
+    dispatch(setMeteo({ uniqueId: activeLocationMeteoUniqueId, meteo: result.data }));
+  }
+
   return (
     <div className="container">
       <h1>Прогноз погоды</h1>
       <MeteoCardContextProvider>
-        <LocationMeteoList />
+        <LocationMeteoList onReload={updateMeteoLocal} />
       </MeteoCardContextProvider>
-      <LocationForm onSubmit={getWeather} />
+      <LocationForm onSubmit={updateLocationMeteoLocal} />
     </div>
   );
 }

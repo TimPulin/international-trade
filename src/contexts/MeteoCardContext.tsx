@@ -26,8 +26,12 @@ export function useMeteoCard() {
 
 export function MeteoCardContextProvider({ children }: any) {
   const [mainWidgetData, setMainWidgetData] = useState<MainWidgetDataType | null>(null);
+
   const mainWidgetDataState = useMemo(
-    () => ({ mainWidgetData, setMainWidgetData }),
+    () => ({
+      mainWidgetData,
+      setMainWidgetData,
+    }),
     [mainWidgetData]
   );
   return (

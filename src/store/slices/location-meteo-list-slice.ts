@@ -80,7 +80,6 @@ export const locationMeteoListSlice = createSlice({
       const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
-      console.log(locationIndex);
 
       if (locationIndex !== -1) {
         state.value.locationMeteoList[locationIndex] = action.payload;

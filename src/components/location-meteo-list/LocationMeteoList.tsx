@@ -12,7 +12,12 @@ import {
   setActiveLocationMeteoUniqueId,
 } from '@/store/slices/location-meteo-list-slice';
 
-export default function LocationMeteoList() {
+type LocationMeteoListType = {
+  onReload: (cityId: string) => void;
+};
+
+export default function LocationMeteoList(props: LocationMeteoListType) {
+  const { onReload } = props;
   const dispatch = useDispatch();
   const locationMeteoList = useLocationMeteoList();
   const [tabIndex, setTabIndex] = useState(0);
@@ -48,7 +53,7 @@ export default function LocationMeteoList() {
       <ul className={locationMeteoStyles.list}>
         {locationMeteoList[tabIndex] && (
           <li key={locationMeteoList[tabIndex].uniqueId}>
-            <MeteoCard meteo={locationMeteoList[tabIndex].meteo} />
+            <MeteoCard locationMeteo={locationMeteoList[tabIndex]} onReload={onReload} />
           </li>
         )}
       </ul>

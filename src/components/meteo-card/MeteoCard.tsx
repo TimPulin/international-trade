@@ -1,4 +1,3 @@
-import { IMeteo } from '@/types/meteo-type';
 import displayStyle from './visual-display.module.css';
 
 import ReloadIcon from '../icons/ReloadIcon';
@@ -9,37 +8,33 @@ import Forecast from '../forecast/Forecast';
 import MainWidget from './MainWidget';
 import { useEffect } from 'react';
 import { useMeteoCard } from '@/contexts/MeteoCardContext';
+import { LocationMeteoType } from '@/store/slices/location-meteo-list-slice';
 
 type MeteoCardPropsType = {
-  meteo: IMeteo | null;
+  locationMeteo: LocationMeteoType;
+  onReload: (cityId: string) => void;
+  onFavorite: () => void;
 };
 
 export default function MeteoCard(props: MeteoCardPropsType) {
-  const { meteo } = props;
+  const { locationMeteo, onReload, onFavorite } = props;
+
   const { setMainWidgetData, mainWidgetData } = useMeteoCard();
 
-  const onClickFavorite = () => {
-    console.log('favorite');
-  };
-
-  const onClickReload = () => {
-    console.log('reload');
-  };
-
   useEffect(() => {
-    if (meteo !== null && meteo !== undefined) {
+    if (locationMeteo.meteo !== null && locationMeteo.meteo !== undefined) {
       setMainWidgetData({
-        iconNumber: meteo.current.icon_num,
-        temperature: meteo.current.temperature,
-        wind: meteo.current.wind,
-        precipitation: meteo.current.precipitation,
+        iconNumber: locationMeteo.meteo.current.icon_num,
+        temperature: locationMeteo.meteo.current.temperature,
+        wind: locationMeteo.meteo.current.wind,
+        precipitation: locationMeteo.meteo.current.precipitation,
       });
     } else {
       setMainWidgetData(null);
     }
-  }, [meteo]);
+  }, [locationMeteo]);
 
-  if (!meteo || !mainWidgetData)
+  if (!locationMeteo.meteo || !mainWidgetData)
     return (
       <div className={`${displayStyle.cardEmpty} ${displayStyle.card}`}>Что там с погодой?</div>
     );
@@ -47,17 +42,18 @@ export default function MeteoCard(props: MeteoCardPropsType) {
   return (
     <div className={displayStyle.card}>
       <ButtonBase
-        onClick={onClickFavorite}
-        additionalClass={`${buttonStyles.buttonFavorite}  ${displayStyle.btnFavorite}`}
+        onClick={() => onFavorite()}
+        additionalClass={`${buttonStyles.buttonFavorite}  ${displayStyle.buttonFavorite} 
+        ${locationMeteo.isFavorite ? buttonStyles.buttonFavoriteActive : ''}`}
       >
         <FavoriteIcon />
       </ButtonBase>
       <div className={displayStyle.body}>
         <MainWidget />
-        <Forecast forecast={meteo.hourly} />
+        <Forecast forecast={locationMeteo.meteo.hourly} />
       </div>
       <div className={displayStyle.footer}>
-        <ButtonBase onClick={onClickReload}>
+        <ButtonBase onClick={() => onReload(locationMeteo.locationId)}>
           <ReloadIcon />
         </ButtonBase>
       </div>

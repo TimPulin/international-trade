@@ -2,14 +2,13 @@ type PlusIconPropsType = {
   additionalClass?: string;
 };
 
-export default function PlusIcon(props: PlusIconPropsType) {
-  const { additionalClass } = props;
+export default function PlusIcon({ additionalClass }: PlusIconPropsType) {
   return (
     <svg
       className={`${additionalClass ? additionalClass : ''} svg`}
       xmlns="http://www.w3.org/2000/svg"
-      x="0px"
-      y="0px"
+      x="20px"
+      y="20px"
       viewBox="0 0 45.402 45.402"
     >
       <g>

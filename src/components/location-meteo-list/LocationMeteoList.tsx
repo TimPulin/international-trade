@@ -29,6 +29,8 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
   };
 
   const addTab = () => {
+    console.log(locationMeteoList);
+
     dispatch(addEmptyLocationMeteo());
     const newTabIndex = locationMeteoList.length;
     setTabIndex(newTabIndex);

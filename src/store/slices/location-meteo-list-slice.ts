@@ -13,7 +13,7 @@ export type LocationMeteoType = {
 
 type LocationMeteoListState = {
   value: {
-    activeLocationMeteoUniqueId: number;
+    activeLocationMeteoUniqueId: number | null;
     locationMeteoList: LocationMeteoType[];
   };
 };
@@ -50,8 +50,8 @@ const initialLocationMeteo = createInitialLocationMeteo();
 
 const initialState: LocationMeteoListState = {
   value: {
-    activeLocationMeteoUniqueId: initialLocationMeteo.uniqueId,
-    locationMeteoList: [initialLocationMeteo],
+    activeLocationMeteoUniqueId: null,
+    locationMeteoList: [],
   },
 };
 

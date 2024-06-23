@@ -21,26 +21,31 @@ export default function MainPage() {
 
   async function updateLocationMeteoLocal(option: OptionType) {
     const result = await getMeteo(option.value);
-
-    dispatch(
-      updateLocationMeteo({
-        uniqueId: activeLocationMeteoUniqueId,
-        locationId: option.value,
-        locationName: option.label,
-        isFavorite: false,
-        isLoading: false,
-        meteo: result.data,
-      })
-    );
+    if (activeLocationMeteoUniqueId) {
+      dispatch(
+        updateLocationMeteo({
+          uniqueId: activeLocationMeteoUniqueId,
+          locationId: option.value,
+          locationName: option.label,
+          isFavorite: false,
+          isLoading: false,
+          meteo: result.data,
+        })
+      );
+    }
   }
 
   function updateFavorite() {
-    dispatch(setFavorite({ uniqueId: activeLocationMeteoUniqueId }));
+    if (activeLocationMeteoUniqueId) {
+      dispatch(setFavorite({ uniqueId: activeLocationMeteoUniqueId }));
+    }
   }
 
   async function updateMeteoLocal(cityId: string) {
     const result = await getMeteo(cityId);
-    dispatch(setMeteo({ uniqueId: activeLocationMeteoUniqueId, meteo: result.data }));
+    if (activeLocationMeteoUniqueId) {
+      dispatch(setMeteo({ uniqueId: activeLocationMeteoUniqueId, meteo: result.data }));
+    }
   }
 
   return (

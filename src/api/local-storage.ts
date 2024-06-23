@@ -1,4 +1,4 @@
-type localStorageType = {
+export type localStorageType = {
   uniqueId: number;
   locationId: string;
   locationName: string;

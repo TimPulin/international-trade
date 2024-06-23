@@ -7,6 +7,7 @@ import { isObjectValid } from './utils/json-validation/is-object-valid';
 import { validateLocationMeteoLocalStorageJSON } from './utils/json-validation/ajv-init';
 import { useDispatch } from 'react-redux';
 import { addEmptyLocationMeteo, addLocationMeteo } from './store/slices/location-meteo-list-slice';
+import { getMeteo } from './api/server-connections';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -24,7 +25,6 @@ export default function App() {
     let favoriteList = null;
     const localStorageValue = getLocalStorage('locationMeteoList');
 
-    // TODO переделать схему localStorage
     if (isJSONValid(localStorageValue)) {
       const parsed: localStorageType[] = JSON.parse(localStorageValue);
       if (isObjectValid<localStorageType[]>(validateLocationMeteoLocalStorageJSON, parsed)) {
@@ -35,7 +35,8 @@ export default function App() {
   }
 
   function addFavorites(favoriteList: localStorageType[]) {
-    favoriteList.forEach((item) => {
+    favoriteList.forEach(async (item) => {
+      const response = await getMeteo(item.locationId);
       dispatch(
         addLocationMeteo({
           uniqueId: item.uniqueId,
@@ -43,7 +44,7 @@ export default function App() {
           locationName: item.locationName,
           isFavorite: true,
           isLoading: false,
-          meteo: null,
+          meteo: response.data,
         })
       );
     });

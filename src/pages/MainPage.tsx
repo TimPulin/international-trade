@@ -5,26 +5,26 @@ import {
   setMeteo,
   updateLocationMeteo,
 } from '@/store/slices/location-meteo-list-slice';
-import { useActiveLocationMeteoUniqueId } from '@/store/selectors';
+import { selectActiveLocationMeteoUniqueId, selectLocationMeteoList } from '@/store/selectors';
 
 import { MeteoCardContextProvider } from '@/contexts/MeteoCardContext';
 import { getMeteo } from '@/api/server-connections';
 
 import LocationForm, { OptionType } from '@/components/location-form/LocationForm';
 import LocationMeteoList from '@/components/location-meteo-list/LocationMeteoList';
-
-// import { meteo } from '../../mok/meteo';
+import { setLocalStorage } from '@/api/local-storage';
 
 export default function MainPage() {
   const dispatch = useDispatch();
-  const activeLocationMeteoUniqueId = useActiveLocationMeteoUniqueId();
+  const activeLocationMeteoUniqueId = selectActiveLocationMeteoUniqueId();
+  const locationMeteoList = selectLocationMeteoList();
 
-  async function updateLocationMeteoLocal(option: OptionType) {
+  async function updateLocationMeteoLocal(uniqueId: number, option: OptionType) {
     const result = await getMeteo(option.value);
     if (activeLocationMeteoUniqueId) {
       dispatch(
         updateLocationMeteo({
-          uniqueId: activeLocationMeteoUniqueId,
+          uniqueId: uniqueId,
           locationId: option.value,
           locationName: option.label,
           isFavorite: false,
@@ -32,13 +32,33 @@ export default function MainPage() {
           meteo: result.data,
         })
       );
+      console.log('mainPage', uniqueId);
+      console.log(locationMeteoList);
     }
   }
 
-  function updateFavorite() {
+  function updateFavorite(uniqueId: number) {
+    updateFavoriteStore(uniqueId);
+    updateFavoriteLocalStorage();
+  }
+
+  function updateFavoriteStore(uniqueId: number) {
     if (activeLocationMeteoUniqueId) {
-      dispatch(setFavorite({ uniqueId: activeLocationMeteoUniqueId }));
+      dispatch(setFavorite({ uniqueId }));
     }
+    console.log(locationMeteoList, uniqueId);
+  }
+
+  function updateFavoriteLocalStorage() {
+    const favoriteList = locationMeteoList
+      .filter((item) => item.isFavorite)
+      .map((item) => ({
+        uniqueId: item.uniqueId,
+        locationId: item.locationId,
+        locationName: item.locationName,
+        isFavorite: item.isFavorite,
+      }));
+    setLocalStorage('locationMeteoList', favoriteList);
   }
 
   async function updateMeteoLocal(cityId: string) {

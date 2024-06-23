@@ -1,17 +1,17 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 
-export function useLocationMeteoList() {
+export const selectLocationMeteoList = () => {
   return useSelector((store: RootState) => store.locationMeteoList.value.locationMeteoList);
-}
+};
 
-export function useActiveLocationMeteoUniqueId() {
+export function selectActiveLocationMeteoUniqueId() {
   return useSelector(
     (store: RootState) => store.locationMeteoList.value.activeLocationMeteoUniqueId
   );
 }
 
-export function useLocationMeteo({ uniqueId }: { uniqueId: number }) {
+export function selectLocationMeteo({ uniqueId }: { uniqueId: number }) {
   const locationIndex = useSelector((store: RootState) =>
     store.locationMeteoList.value.locationMeteoList.findIndex((item) => item.uniqueId === uniqueId)
   );

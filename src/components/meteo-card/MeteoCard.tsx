@@ -13,7 +13,7 @@ import { LocationMeteoType } from '@/store/slices/location-meteo-list-slice';
 type MeteoCardPropsType = {
   locationMeteo: LocationMeteoType;
   onReload: (cityId: string) => void;
-  onFavorite: () => void;
+  onFavorite: (uniqueId: number) => void;
 };
 
 export default function MeteoCard(props: MeteoCardPropsType) {
@@ -42,7 +42,7 @@ export default function MeteoCard(props: MeteoCardPropsType) {
   return (
     <div className={displayStyle.card}>
       <ButtonBase
-        onClick={() => onFavorite()}
+        onClick={() => onFavorite(locationMeteo.uniqueId)}
         additionalClass={`${buttonStyles.buttonFavorite}  ${displayStyle.buttonFavorite} 
         ${locationMeteo.isFavorite ? buttonStyles.buttonFavoriteActive : ''}`}
       >

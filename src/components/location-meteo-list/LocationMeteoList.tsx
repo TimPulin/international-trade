@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useLocationMeteoList } from '@/store/selectors';
+import { useEffect, useState } from 'react';
+import { selectLocationMeteoList } from '@/store/selectors';
 
 import MeteoCard from '@/components/meteo-card/MeteoCard';
 import ButtonBase from '../button/ButtonBase';
@@ -14,18 +14,18 @@ import {
 
 type LocationMeteoListType = {
   onReload: (cityId: string) => void;
-  onFavorite: () => void;
+  onFavorite: (uniqueId: number) => void;
 };
 
 export default function LocationMeteoList(props: LocationMeteoListType) {
   const { onReload, onFavorite } = props;
   const dispatch = useDispatch();
-  const locationMeteoList = useLocationMeteoList();
+  const locationMeteoList = selectLocationMeteoList();
   const [tabIndex, setTabIndex] = useState(0);
 
-  const onTabClick = (index: number) => {
+  const onTabClick = (index: number, uniqueId: number) => {
     setTabIndex(index);
-    dispatch(setActiveLocationMeteoUniqueId({ uniqueId: locationMeteoList[tabIndex].uniqueId }));
+    dispatch(setActiveLocationMeteoUniqueId({ uniqueId }));
   };
 
   const addTab = () => {
@@ -33,6 +33,10 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
     const newTabIndex = locationMeteoList.length;
     setTabIndex(newTabIndex);
   };
+
+  useEffect(() => {
+    setTabIndex(0);
+  }, []);
 
   return (
     <>
@@ -42,7 +46,9 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
             key={item.uniqueId}
             className={`${locationMeteoStyles.tab} ${tabIndex === index ? locationMeteoStyles.tabActive : ''}`}
           >
-            <ButtonBase onClick={() => onTabClick(index)}>{item.locationName}</ButtonBase>
+            <ButtonBase onClick={() => onTabClick(index, item.uniqueId)}>
+              {item.locationName.split(',')[0]}
+            </ButtonBase>
           </li>
         ))}
         <li>

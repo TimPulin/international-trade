@@ -13,7 +13,7 @@ export type LocationMeteoType = {
 
 type LocationMeteoListState = {
   value: {
-    activeLocationMeteoUniqueId: number;
+    activeLocationMeteoUniqueId: number | null;
     locationMeteoList: LocationMeteoType[];
   };
 };
@@ -46,12 +46,10 @@ type SetMeteoActionType = {
   };
 };
 
-const initialLocationMeteo = createInitialLocationMeteo();
-
 const initialState: LocationMeteoListState = {
   value: {
-    activeLocationMeteoUniqueId: initialLocationMeteo.uniqueId,
-    locationMeteoList: [initialLocationMeteo],
+    activeLocationMeteoUniqueId: null,
+    locationMeteoList: [],
   },
 };
 
@@ -61,6 +59,7 @@ export const locationMeteoListSlice = createSlice({
   reducers: {
     addLocationMeteo(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
       state.value.locationMeteoList.push(action.payload);
+      state.value.activeLocationMeteoUniqueId = action.payload.uniqueId;
     },
 
     addEmptyLocationMeteo(state: LocationMeteoListState) {
@@ -107,10 +106,12 @@ export const locationMeteoListSlice = createSlice({
       const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
+
       if (locationIndex !== -1) {
         state.value.locationMeteoList[locationIndex].isFavorite =
           !state.value.locationMeteoList[locationIndex].isFavorite;
       }
+      console.log('locationMeteoList', state.value.locationMeteoList);
     },
 
     setActiveLocationMeteoUniqueId(state: LocationMeteoListState, action: FindByIdAction) {

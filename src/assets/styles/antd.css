@@ -22,3 +22,10 @@
   border-color: var(--color-primary-shade);
   color: var(--color-primary-shade);
 }
+
+:where(.css-dev-only-do-not-override-m4timi).ant-btn-default:not(:disabled):not(
+    .ant-btn-disabled
+  ):focus {
+  box-shadow: 0 0 5px 2px var(--color-primary-light);
+  outline: none;
+}

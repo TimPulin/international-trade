@@ -18,7 +18,7 @@ export default function App() {
 
   function onAppLoad() {
     const favoriteList = getFavoriteListFromLocalStorage();
-    if (favoriteList) {
+    if (favoriteList && favoriteList.length > 0) {
       addFavorites(favoriteList);
     } else {
       dispatch(addEmptyLocationMeteo());

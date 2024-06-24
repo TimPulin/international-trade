@@ -47,7 +47,7 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
             className={`${locationMeteoStyles.tab} ${tabIndex === index ? locationMeteoStyles.tabActive : ''}`}
           >
             <ButtonBase onClick={() => onTabClick(index, item.uniqueId)}>
-              {item.locationName}
+              {item.locationName.split(',')[0]}
             </ButtonBase>
           </li>
         ))}

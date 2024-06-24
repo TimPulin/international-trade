@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 
 import {
+  addLocationMeteo,
   setFavorite,
   setMeteo,
   updateLocationMeteo,
@@ -20,33 +21,45 @@ export default function MainPage() {
   const locationMeteoList = selectLocationMeteoList();
 
   async function updateLocationMeteoLocal(uniqueId: number, option: OptionType) {
-    const result = await getMeteo(option.value);
+    const response = await getMeteo(option.value);
     if (activeLocationMeteoUniqueId) {
-      dispatch(
-        updateLocationMeteo({
-          uniqueId: uniqueId,
-          locationId: option.value,
-          locationName: option.label,
-          isFavorite: false,
-          isLoading: false,
-          meteo: result.data,
-        })
-      );
-      console.log('mainPage', uniqueId);
-      console.log(locationMeteoList);
+      const locationIndex = locationMeteoList.findIndex((item) => item.uniqueId === uniqueId);
+      const isFavorite = locationMeteoList[locationIndex].isFavorite;
+      if (isFavorite) {
+        dispatch(
+          addLocationMeteo({
+            uniqueId: Date.now(),
+            locationId: option.value,
+            locationName: option.label,
+            isFavorite: false,
+            isLoading: false,
+            meteo: response.data,
+          })
+        );
+      } else {
+        dispatch(
+          updateLocationMeteo({
+            uniqueId: uniqueId,
+            locationId: option.value,
+            locationName: option.label,
+            isFavorite: false,
+            isLoading: false,
+            meteo: response.data,
+          })
+        );
+      }
     }
   }
 
   function updateFavorite(uniqueId: number) {
-    updateFavoriteStore(uniqueId);
+    updateFavoriteStatus(uniqueId);
     updateFavoriteLocalStorage();
   }
 
-  function updateFavoriteStore(uniqueId: number) {
+  function updateFavoriteStatus(uniqueId: number) {
     if (activeLocationMeteoUniqueId) {
       dispatch(setFavorite({ uniqueId }));
     }
-    console.log(locationMeteoList, uniqueId);
   }
 
   function updateFavoriteLocalStorage() {
@@ -58,6 +71,7 @@ export default function MainPage() {
         locationName: item.locationName,
         isFavorite: item.isFavorite,
       }));
+
     setLocalStorage('locationMeteoList', favoriteList);
   }
 

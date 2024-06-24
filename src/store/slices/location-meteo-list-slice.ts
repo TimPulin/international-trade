@@ -57,18 +57,18 @@ export const locationMeteoListSlice = createSlice({
   name: 'locationMeteoList',
   initialState,
   reducers: {
-    addLocationMeteo(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
+    addLocation(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
       state.value.locationMeteoList.push(action.payload);
       state.value.activeLocationMeteoUniqueId = action.payload.uniqueId;
     },
 
-    addEmptyLocationMeteo(state: LocationMeteoListState) {
+    addEmptyLocation(state: LocationMeteoListState) {
       const initialLocationMeteo = createInitialLocationMeteo();
       state.value.locationMeteoList.push(initialLocationMeteo);
       state.value.activeLocationMeteoUniqueId = initialLocationMeteo.uniqueId;
     },
 
-    updateLocationMeteo(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
+    updateLocation(state: LocationMeteoListState, action: AddLocationMeteoActionType) {
       const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
@@ -78,13 +78,13 @@ export const locationMeteoListSlice = createSlice({
       }
     },
 
-    removeLocationMeteo(state: LocationMeteoListState, action: FindByIdAction) {
+    removeLocation(state: LocationMeteoListState, action: FindByIdAction) {
       state.value.locationMeteoList = state.value.locationMeteoList.filter(
         (item) => item.uniqueId !== action.payload.uniqueId
       );
     },
 
-    setIsLocationLoading(state: LocationMeteoListState, action: SetIsLocationLoadingActionType) {
+    setIsLoading(state: LocationMeteoListState, action: SetIsLocationLoadingActionType) {
       const locationIndex = state.value.locationMeteoList.findIndex(
         (item) => item.uniqueId === action.payload.uniqueId
       );
@@ -111,24 +111,23 @@ export const locationMeteoListSlice = createSlice({
         state.value.locationMeteoList[locationIndex].isFavorite =
           !state.value.locationMeteoList[locationIndex].isFavorite;
       }
-      console.log('locationMeteoList', state.value.locationMeteoList);
     },
 
-    setActiveLocationMeteoUniqueId(state: LocationMeteoListState, action: FindByIdAction) {
+    setActiveUniqueId(state: LocationMeteoListState, action: FindByIdAction) {
       state.value.activeLocationMeteoUniqueId = action.payload.uniqueId;
     },
   },
 });
 
 export const {
-  addLocationMeteo,
-  addEmptyLocationMeteo,
-  updateLocationMeteo,
-  removeLocationMeteo,
-  setIsLocationLoading,
+  addLocation: addLocation,
+  addEmptyLocation: addEmptyLocation,
+  updateLocation: updateLocation,
+  removeLocation: removeLocation,
+  setIsLoading: setIsLoading,
   setMeteo,
   setFavorite,
-  setActiveLocationMeteoUniqueId,
+  setActiveUniqueId: setActiveUniqueId,
 } = locationMeteoListSlice.actions;
 export default locationMeteoListSlice.actions;
 

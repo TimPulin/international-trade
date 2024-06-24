@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { selectLocationMeteoList } from '@/store/selectors';
+import { selectList } from '@/store/selectors';
 
 import MeteoCard from '@/components/meteo-card/MeteoCard';
 import ButtonBase from '../button/ButtonBase';
@@ -7,10 +7,7 @@ import ButtonBase from '../button/ButtonBase';
 import locationMeteoStyles from './location-meteo-list.module.css';
 import PlusIcon from '../icons/PlusIcon';
 import { useDispatch } from 'react-redux';
-import {
-  addEmptyLocationMeteo,
-  setActiveLocationMeteoUniqueId,
-} from '@/store/slices/location-meteo-list-slice';
+import { addEmptyLocation, setActiveUniqueId } from '@/store/slices/location-meteo-list-slice';
 
 type LocationMeteoListType = {
   onReload: (cityId: string) => void;
@@ -20,16 +17,16 @@ type LocationMeteoListType = {
 export default function LocationMeteoList(props: LocationMeteoListType) {
   const { onReload, onFavorite } = props;
   const dispatch = useDispatch();
-  const locationMeteoList = selectLocationMeteoList();
+  const locationMeteoList = selectList();
   const [tabIndex, setTabIndex] = useState(0);
 
   const onTabClick = (index: number, uniqueId: number) => {
     setTabIndex(index);
-    dispatch(setActiveLocationMeteoUniqueId({ uniqueId }));
+    dispatch(setActiveUniqueId({ uniqueId }));
   };
 
   const addTab = () => {
-    dispatch(addEmptyLocationMeteo());
+    dispatch(addEmptyLocation());
     const newTabIndex = locationMeteoList.length;
     setTabIndex(newTabIndex);
   };

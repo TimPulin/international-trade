@@ -1,12 +1,8 @@
 import { useDispatch } from 'react-redux';
 
-import {
-  addLocationMeteo,
-  setFavorite,
-  setMeteo,
-  updateLocationMeteo,
-} from '@/store/slices/location-meteo-list-slice';
-import { selectActiveLocationMeteoUniqueId, selectLocationMeteoList } from '@/store/selectors';
+import * as locationMeteoState from '@/store/slices/location-meteo-list-slice';
+
+import * as locationMeteo from '@/store/selectors';
 
 import { MeteoCardContextProvider } from '@/contexts/MeteoCardContext';
 import { getMeteo } from '@/api/server-connections';
@@ -14,11 +10,13 @@ import { getMeteo } from '@/api/server-connections';
 import LocationForm, { OptionType } from '@/components/location-form/LocationForm';
 import LocationMeteoList from '@/components/location-meteo-list/LocationMeteoList';
 import { setLocalStorage } from '@/api/local-storage';
+import { useEffect } from 'react';
 
 export default function MainPage() {
   const dispatch = useDispatch();
-  const activeLocationMeteoUniqueId = selectActiveLocationMeteoUniqueId();
-  const locationMeteoList = selectLocationMeteoList();
+  const activeLocationMeteoUniqueId = locationMeteo.selectActiveUniqueId();
+  const locationMeteoList = locationMeteo.selectList();
+  const favoriteLocationMeteoList = locationMeteo.selectFavoriteList();
 
   async function updateLocationMeteoLocal(uniqueId: number, option: OptionType) {
     const response = await getMeteo(option.value);
@@ -27,7 +25,7 @@ export default function MainPage() {
       const isFavorite = locationMeteoList[locationIndex].isFavorite;
       if (isFavorite) {
         dispatch(
-          addLocationMeteo({
+          locationMeteoState.addLocation({
             uniqueId: Date.now(),
             locationId: option.value,
             locationName: option.label,
@@ -38,7 +36,7 @@ export default function MainPage() {
         );
       } else {
         dispatch(
-          updateLocationMeteo({
+          locationMeteoState.updateLocation({
             uniqueId: uniqueId,
             locationId: option.value,
             locationName: option.label,
@@ -52,35 +50,34 @@ export default function MainPage() {
   }
 
   function updateFavorite(uniqueId: number) {
-    updateFavoriteStatus(uniqueId);
-    updateFavoriteLocalStorage();
-  }
-
-  function updateFavoriteStatus(uniqueId: number) {
     if (activeLocationMeteoUniqueId) {
-      dispatch(setFavorite({ uniqueId }));
+      dispatch(locationMeteoState.setFavorite({ uniqueId }));
     }
   }
 
   function updateFavoriteLocalStorage() {
-    const favoriteList = locationMeteoList
-      .filter((item) => item.isFavorite)
-      .map((item) => ({
-        uniqueId: item.uniqueId,
-        locationId: item.locationId,
-        locationName: item.locationName,
-        isFavorite: item.isFavorite,
-      }));
+    const shortList = favoriteLocationMeteoList.map((item) => ({
+      uniqueId: item.uniqueId,
+      locationId: item.locationId,
+      locationName: item.locationName,
+      isFavorite: item.isFavorite,
+    }));
 
-    setLocalStorage('locationMeteoList', favoriteList);
+    setLocalStorage('locationMeteoList', shortList);
   }
 
   async function updateMeteoLocal(cityId: string) {
     const result = await getMeteo(cityId);
     if (activeLocationMeteoUniqueId) {
-      dispatch(setMeteo({ uniqueId: activeLocationMeteoUniqueId, meteo: result.data }));
+      dispatch(
+        locationMeteoState.setMeteo({ uniqueId: activeLocationMeteoUniqueId, meteo: result.data })
+      );
     }
   }
+
+  useEffect(() => {
+    updateFavoriteLocalStorage();
+  }, [favoriteLocationMeteoList]);
 
   return (
     <div className="container">

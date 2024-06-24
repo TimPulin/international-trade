@@ -7,7 +7,7 @@ import formStyles from './form.module.css';
 
 import { debounce } from '@/utils/debounce';
 import { IPlace } from '@/types/place-type';
-import { selectActiveLocationMeteoUniqueId } from '@/store/selectors';
+import { selectActiveUniqueId } from '@/store/selectors';
 
 export type OptionType = {
   label: string;
@@ -22,7 +22,7 @@ type LocationFormType = {
 
 export default function LocationForm(props: LocationFormType) {
   const { onSubmit } = props;
-  const activeUniqueId = selectActiveLocationMeteoUniqueId();
+  const activeUniqueId = selectActiveUniqueId();
 
   const [options, setOptions] = useState<IPlace[]>([]);
   const cityRef = useRef<OptionType | null>(null);

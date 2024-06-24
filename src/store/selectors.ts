@@ -1,17 +1,28 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import { createSelector } from '@reduxjs/toolkit';
 
-export const selectLocationMeteoList = () => {
-  return useSelector((store: RootState) => store.locationMeteoList.value.locationMeteoList);
-};
+const locationMeteoList = (state: RootState) => state.locationMeteoList.value.locationMeteoList;
 
-export function selectActiveLocationMeteoUniqueId() {
+export function selectList() {
+  return useSelector(locationMeteoList);
+}
+
+const favoriteList = createSelector(locationMeteoList, (list) =>
+  list.filter((item) => item.isFavorite)
+);
+
+export function selectFavoriteList() {
+  return useSelector(favoriteList);
+}
+
+export function selectActiveUniqueId() {
   return useSelector(
     (store: RootState) => store.locationMeteoList.value.activeLocationMeteoUniqueId
   );
 }
 
-export function selectLocationMeteo({ uniqueId }: { uniqueId: number }) {
+export function selectLocation({ uniqueId }: { uniqueId: number }) {
   const locationIndex = useSelector((store: RootState) =>
     store.locationMeteoList.value.locationMeteoList.findIndex((item) => item.uniqueId === uniqueId)
   );

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getLocalStorage, LocalStorageType } from './api/local-storage';
 
 import MainPage from './pages/MainPage';
@@ -7,22 +7,25 @@ import { isObjectValid } from './utils/json-validation/is-object-valid';
 import { validateLocationMeteoLocalStorageJSON } from './utils/json-validation/ajv-init';
 import { useDispatch } from 'react-redux';
 import {
-  addEmptyLocationMeteo,
-  addLocationMeteo,
-  setActiveLocationMeteoUniqueId,
+  addEmptyLocation,
+  addLocation,
+  setActiveUniqueId,
 } from './store/slices/location-meteo-list-slice';
 import { getMeteo } from './api/server-connections';
 
 export default function App() {
   const dispatch = useDispatch();
+  const [isAppLoading, setIsAppLoading] = useState(true);
 
   function onAppLoad() {
+    setIsAppLoading(true);
     const favoriteList = getFavoriteListFromLocalStorage();
     if (favoriteList && favoriteList.length > 0) {
       addFavorites(favoriteList);
     } else {
-      dispatch(addEmptyLocationMeteo());
+      dispatch(addEmptyLocation());
     }
+    setIsAppLoading(false);
   }
 
   function getFavoriteListFromLocalStorage() {
@@ -42,7 +45,7 @@ export default function App() {
     favoriteList.forEach(async (item) => {
       const response = await getMeteo(item.locationId);
       dispatch(
-        addLocationMeteo({
+        addLocation({
           uniqueId: item.uniqueId,
           locationId: item.locationId,
           locationName: item.locationName,
@@ -57,6 +60,10 @@ export default function App() {
   useEffect(() => {
     onAppLoad();
   }, []);
+
+  if (isAppLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

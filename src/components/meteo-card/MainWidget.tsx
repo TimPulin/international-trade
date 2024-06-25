@@ -2,9 +2,23 @@ import bigMeteoIconsStyle from './meteo-icons.module.css';
 import widgetStyles from './main-widget.module.css';
 import { useMeteoCard } from '@/contexts/MeteoCardContext';
 import { formatDateFromString } from '@/utils/format-date';
+import { Units } from '@/types/units-enum';
 
 export default function MainWidget() {
   const { mainWidgetData } = useMeteoCard();
+
+  const renderTemperatureUnits = () => {
+    return mainWidgetData?.units === Units.METRIC ? '°C' : '°F';
+  };
+
+  const renderPrecipitationUnits = () => {
+    return mainWidgetData?.units === Units.METRIC ? 'мм' : 'in';
+  };
+
+  const renderWindUnits = () => {
+    return mainWidgetData?.units === Units.METRIC ? 'м/с' : 'mph';
+  };
+
   const getIconNumber = () => {
     return mainWidgetData ? mainWidgetData.iconNumber : 0;
   };
@@ -21,9 +35,19 @@ export default function MainWidget() {
           ></div>
         </div>
         <div className={widgetStyles.info}>
-          <div>Температура: {mainWidgetData ? `${mainWidgetData.temperature}°C` : '...'}</div>
-          <div>Ветер: {mainWidgetData ? `${mainWidgetData.wind.speed} м/с` : '...'}</div>
-          <div>Осадки: {mainWidgetData ? `${mainWidgetData.precipitation.total} мм` : '...'}</div>
+          <div>
+            Температура:{' '}
+            {mainWidgetData ? `${mainWidgetData.temperature}${renderTemperatureUnits()} ` : '...'}
+          </div>
+          <div>
+            Ветер: {mainWidgetData ? `${mainWidgetData.wind.speed} ${renderWindUnits()}` : '...'}
+          </div>
+          <div>
+            Осадки:{' '}
+            {mainWidgetData
+              ? `${mainWidgetData.precipitation.total} ${renderPrecipitationUnits()}`
+              : '...'}
+          </div>
         </div>
       </div>
     </div>

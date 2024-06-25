@@ -48,6 +48,7 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
             </ButtonBase>
           </li>
         ))}
+
         <li>
           <ButtonBase onClick={addTab}>
             <PlusIcon additionalClass={locationMeteoStyles.iconPlus} />

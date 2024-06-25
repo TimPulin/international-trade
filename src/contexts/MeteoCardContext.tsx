@@ -1,9 +1,11 @@
 import { IPrecipitation, IWind } from '@/types/meteo-type';
+import { Units } from '@/types/units-enum';
 import { createContext, useContext, useMemo, useState } from 'react';
 
 type MainWidgetDataType = {
   date?: string;
   iconNumber: number;
+  units: Units;
   temperature: number;
   wind: IWind;
   precipitation: IPrecipitation;

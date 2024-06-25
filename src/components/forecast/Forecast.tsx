@@ -2,13 +2,15 @@ import { useEffect, useRef } from 'react';
 import ForecastItem from './ForecastItem';
 import forecastStyle from './forecast.module.css';
 import { IHourly } from '@/types/meteo-type';
+import { Units } from '@/types/units-enum';
 
 type ForecastPropsType = {
   forecast: IHourly;
+  units: Units;
 };
 
 export default function Forecast(props: ForecastPropsType) {
-  const { forecast } = props;
+  const { forecast, units } = props;
   const listRef = useRef<HTMLUListElement>(null);
 
   function handleScroll(event: WheelEvent) {
@@ -29,7 +31,7 @@ export default function Forecast(props: ForecastPropsType) {
 
       <ul className={`${forecastStyle.list}`} ref={listRef}>
         {forecast.data.map((item) => (
-          <ForecastItem key={item.date} item={item} />
+          <ForecastItem key={item.date} item={item} units={units} />
         ))}
       </ul>
     </div>

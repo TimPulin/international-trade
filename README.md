@@ -4,6 +4,7 @@
 
 - Клонируйте репозиторий `git clone git@github.com:TimPulin/international-trade.git`
 - Установите зависимости `npm install`
+- положите приложенный к сообщению файл .env в корень проекта
 
 ## Запуск проекта
 

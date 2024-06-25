@@ -8,6 +8,7 @@ import locationMeteoStyles from './location-meteo-list.module.css';
 import PlusIcon from '../icons/PlusIcon';
 import { useDispatch } from 'react-redux';
 import { addEmptyLocation, setActiveUniqueId } from '@/store/slices/location-meteo-list-slice';
+import LocationMeteoItem from './LocationMeteoItem';
 
 type LocationMeteoListType = {
   onReload: (cityId: string) => void;
@@ -26,9 +27,11 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
   };
 
   const addTab = () => {
-    dispatch(addEmptyLocation());
-    const newTabIndex = locationMeteoList.length;
-    setTabIndex(newTabIndex);
+    if (locationMeteoList[0].locationName === '') {
+      dispatch(addEmptyLocation());
+      const newTabIndex = locationMeteoList.length;
+      setTabIndex(newTabIndex);
+    }
   };
 
   useEffect(() => {
@@ -39,19 +42,14 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
     <>
       <ul className={`${locationMeteoStyles.list} ${locationMeteoStyles.tabList}`}>
         {locationMeteoList.map((item, index) => (
-          <li
-            key={item.uniqueId}
-            className={`${locationMeteoStyles.tab} ${tabIndex === index ? locationMeteoStyles.tabActive : ''}`}
-          >
-            <ButtonBase onClick={() => onTabClick(index, item.uniqueId)}>
-              {item.locationName.split(',')[0]}
-            </ButtonBase>
-          </li>
+          <LocationMeteoItem tabIndex={tabIndex} index={index} item={item} onClick={onTabClick} />
         ))}
 
         <li>
           <ButtonBase onClick={addTab}>
-            <PlusIcon additionalClass={locationMeteoStyles.iconPlus} />
+            <PlusIcon
+              additionalClass={`${locationMeteoStyles.iconPlus} ${locationMeteoList[0].locationName === '' ? locationMeteoStyles.iconPlusDisabled : ''}`}
+            />
           </ButtonBase>
         </li>
       </ul>

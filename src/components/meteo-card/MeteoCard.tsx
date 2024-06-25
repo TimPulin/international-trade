@@ -25,6 +25,7 @@ export default function MeteoCard(props: MeteoCardPropsType) {
     if (locationMeteo.meteo !== null && locationMeteo.meteo !== undefined) {
       setMainWidgetData({
         iconNumber: locationMeteo.meteo.current.icon_num,
+        units: locationMeteo.units,
         temperature: locationMeteo.meteo.current.temperature,
         wind: locationMeteo.meteo.current.wind,
         precipitation: locationMeteo.meteo.current.precipitation,
@@ -50,7 +51,7 @@ export default function MeteoCard(props: MeteoCardPropsType) {
       </ButtonBase>
       <div className={displayStyle.body}>
         <MainWidget />
-        <Forecast forecast={locationMeteo.meteo.hourly} />
+        <Forecast units={locationMeteo.units} forecast={locationMeteo.meteo.hourly} />
       </div>
       <div className={displayStyle.footer}>
         <ButtonBase onClick={() => onReload(locationMeteo.locationId)}>

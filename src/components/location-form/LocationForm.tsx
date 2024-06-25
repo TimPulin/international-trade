@@ -1,13 +1,15 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { findPlace } from '@/api/server-connections';
 
 import { Button, Select } from 'antd';
+import { useFormik } from 'formik';
 import selectStyles from './select.module.css';
 import formStyles from './form.module.css';
 
 import { debounce } from '@/utils/debounce';
 import { IPlace } from '@/types/place-type';
 import { selectActiveUniqueId } from '@/store/selectors';
+import { Units } from '@/types/units-enum';
 
 export type OptionType = {
   label: string;
@@ -17,24 +19,42 @@ export type OptionType = {
 type OptionSelectType = OptionType | OptionType[];
 
 type LocationFormType = {
-  onSubmit: (activeUniqueId: number, option: OptionType) => void;
+  onSubmit: (activeUniqueId: number, option: OptionType, units: Units) => void;
+};
+
+const unitOptions = [
+  { label: 'Цельсий', value: Units.METRIC },
+  { label: 'Фаренгейт', value: Units.US },
+];
+
+const formInitialValues = {
+  city: { label: '', value: '' },
+  units: unitOptions[0].value,
 };
 
 export default function LocationForm(props: LocationFormType) {
   const { onSubmit } = props;
   const activeUniqueId = selectActiveUniqueId();
 
-  const [options, setOptions] = useState<IPlace[]>([]);
-  const cityRef = useRef<OptionType | null>(null);
+  const formik = useFormik({
+    initialValues: formInitialValues,
+    onSubmit: ({ city, units }) => {
+      console.log('formik', city, units);
 
-  const onChange = (value: string, option: OptionSelectType) => {
+      if (activeUniqueId) onSubmit(activeUniqueId, city, units);
+    },
+  });
+
+  const [options, setOptions] = useState<IPlace[]>([]);
+
+  const onCityChange = (value: string, option: OptionSelectType) => {
     let label = '';
     if (Array.isArray(option)) {
       label = option[0].label;
     } else {
       label = option.label;
     }
-    cityRef.current = { value, label };
+    formik.handleChange({ target: { name: 'city', value: { label, value } } });
   };
 
   const onSearch = async (value: string) => {
@@ -43,16 +63,6 @@ export default function LocationForm(props: LocationFormType) {
       setOptions(result.data.filter((item) => item.name.toLowerCase() === item.place_id));
     } catch (error) {
       console.log(error);
-    }
-  };
-
-  const onSubmitLocal = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    if (cityRef.current) {
-      if (activeUniqueId) {
-        onSubmit(activeUniqueId, cityRef.current);
-      }
     }
   };
 
@@ -67,16 +77,23 @@ export default function LocationForm(props: LocationFormType) {
   }
 
   return (
-    <form className={formStyles.form} onSubmit={onSubmitLocal}>
+    <form className={formStyles.form} onSubmit={formik.handleSubmit}>
       <Select
         options={makeOptionsList(options)}
         showSearch
-        placeholder="Выберите город"
+        placeholder="Город"
         optionFilterProp="label"
-        onChange={(value, option) => onChange(value, option)}
-        onSearch={debounce(onSearch, 500)}
+        onChange={(value, option) => onCityChange(value, option)}
+        onSearch={debounce(onSearch, 400)}
         filterOption={false}
         className={selectStyles.select}
+      />
+      <Select
+        options={unitOptions}
+        defaultValue={unitOptions[0].value}
+        placeholder="Единицы измерения"
+        className={selectStyles.select}
+        onChange={(value) => formik.handleChange({ target: { name: 'units', value: value } })}
       />
 
       <Button htmlType="submit">Показать погоду</Button>

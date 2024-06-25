@@ -1,6 +1,7 @@
 import { IMeteo } from '@/types/meteo-type';
 import { createSlice } from '@reduxjs/toolkit';
 import { createInitialLocationMeteo } from './create-initial-location-meteo';
+import { Units } from '@/types/units-enum';
 
 export type LocationMeteoType = {
   uniqueId: number;
@@ -8,6 +9,7 @@ export type LocationMeteoType = {
   locationName: string;
   isFavorite: boolean;
   isLoading: boolean;
+  units: Units;
   meteo: IMeteo | null;
 };
 

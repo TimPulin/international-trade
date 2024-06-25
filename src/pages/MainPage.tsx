@@ -11,6 +11,7 @@ import LocationForm, { OptionType } from '@/components/location-form/LocationFor
 import LocationMeteoList from '@/components/location-meteo-list/LocationMeteoList';
 import { setLocalStorage } from '@/api/local-storage';
 import { useEffect } from 'react';
+import { Units } from '@/types/units-enum';
 
 export default function MainPage() {
   const dispatch = useDispatch();
@@ -18,8 +19,10 @@ export default function MainPage() {
   const locationMeteoList = locationMeteo.selectList();
   const favoriteLocationMeteoList = locationMeteo.selectFavoriteList();
 
-  async function updateLocationMeteoLocal(uniqueId: number, option: OptionType) {
-    const response = await getMeteo(option.value);
+  async function onFormSubmit(uniqueId: number, option: OptionType, units: Units) {
+    console.log(units);
+
+    const response = await getMeteo(option.value, units);
     if (activeLocationMeteoUniqueId) {
       const locationIndex = locationMeteoList.findIndex((item) => item.uniqueId === uniqueId);
       const isFavorite = locationMeteoList[locationIndex].isFavorite;
@@ -31,6 +34,7 @@ export default function MainPage() {
             locationName: option.label,
             isFavorite: false,
             isLoading: false,
+            units,
             meteo: response.data,
           })
         );
@@ -42,6 +46,7 @@ export default function MainPage() {
             locationName: option.label,
             isFavorite: false,
             isLoading: false,
+            units,
             meteo: response.data,
           })
         );
@@ -85,7 +90,7 @@ export default function MainPage() {
       <MeteoCardContextProvider>
         <LocationMeteoList onReload={updateMeteoLocal} onFavorite={updateFavorite} />
       </MeteoCardContextProvider>
-      <LocationForm onSubmit={updateLocationMeteoLocal} />
+      <LocationForm onSubmit={onFormSubmit} />
     </div>
   );
 }

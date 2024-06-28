@@ -1,10 +1,15 @@
-import { ReactTestRenderer } from 'react-test-renderer';
-import ButtonBase from '@/components/button/ButtonBase';
+import { ReactTestRenderer, create } from 'react-test-renderer';
+import ButtonBase from '../components/button/ButtonBase';
 
 describe('ButtonBase', () => {
   let root: ReactTestRenderer;
 
   beforeEach(() => {
-    const test = 0;
+    root = create(<ButtonBase text="text-test" onClick={() => {}} />);
+  });
+
+  test('button get correct text', () => {
+    const tree = root.toTree();
+    expect(tree?.props.text).toBe('text-test');
   });
 });

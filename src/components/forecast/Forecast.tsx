@@ -3,6 +3,7 @@ import ForecastItem from './ForecastItem';
 import forecastStyle from './forecast.module.css';
 import { IHourly } from '@/types/meteo-type';
 import { Units } from '@/types/units-enum';
+import TestBtn from '../button/TestBtn';
 
 type ForecastPropsType = {
   forecast: IHourly;

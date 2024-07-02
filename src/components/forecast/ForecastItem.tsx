@@ -8,12 +8,20 @@ import { ISituationOnDate } from '@/types/meteo-type';
 import { formatDateFromString } from '@/utils/format-date';
 import { Units } from '@/types/units-enum';
 
-type ForecastItemPropsType = {
+export type ForecastItemPropsType = {
   item: ISituationOnDate;
   units: Units;
 };
 
-export default function ForecastItem(props: ForecastItemPropsType) {
+/**
+ * Component representing a single item in the forecast list.
+ *
+ * @param {ISituationOnDate} props.item - The weather situation on a specific date.
+ * @param {Units} props.units - The units of measurement (metric or imperial).
+ * @returns {JSX.Element} - The rendered component.
+ */
+
+export default function ForecastItem(props: ForecastItemPropsType): JSX.Element {
   const { item, units } = props;
   const { setMainWidgetData } = useMeteoCard();
 
@@ -39,8 +47,9 @@ export default function ForecastItem(props: ForecastItemPropsType) {
           <div
             className={`${iconStyle.sprite} ${iconStyle.icon} ${iconStyle[`icon_${item.icon}`]}`}
           ></div>
-          {item.temperature}
-          {renderTemperatureUnits()}
+          <div>
+            {item.temperature} {renderTemperatureUnits()}
+          </div>
           <div className={itemStyle.date}>{formatDateFromString(item.date)}</div>
         </>
       </ButtonBase>

@@ -9,6 +9,14 @@ type ForecastPropsType = {
   units: Units;
 };
 
+/**
+ * Component to display a forecast of the weather for multiple days.
+ *
+ * @param {IHourly} props.forecast - The forecast data for multiple days.
+ * @param {Units} props.units - The units of measurement (metric or imperial).
+ * @returns {JSX.Element} - The rendered component.
+ */
+
 export default function Forecast(props: ForecastPropsType) {
   const { forecast, units } = props;
   const listRef = useRef<HTMLUListElement>(null);

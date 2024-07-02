@@ -3,12 +3,19 @@ import ForecastItem from './ForecastItem';
 import forecastStyle from './forecast.module.css';
 import { IHourly } from '@/types/meteo-type';
 import { Units } from '@/types/units-enum';
-import TestBtn from '../button/TestBtn';
 
 type ForecastPropsType = {
   forecast: IHourly;
   units: Units;
 };
+
+/**
+ * Component to display a forecast of the weather for multiple days.
+ *
+ * @param {IHourly} props.forecast - The forecast data for multiple days.
+ * @param {Units} props.units - The units of measurement (metric or imperial).
+ * @returns {JSX.Element} - The rendered component.
+ */
 
 export default function Forecast(props: ForecastPropsType) {
   const { forecast, units } = props;

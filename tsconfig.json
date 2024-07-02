@@ -29,6 +29,6 @@
       "@components/*": ["src/components/*"]
     }
   },
-  "include": ["src", "mok/styleMock.js", "./jest.config.ts"],
+  "include": ["src", "mok/styleMock.js", "./jest.config.ts", "setupTests.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

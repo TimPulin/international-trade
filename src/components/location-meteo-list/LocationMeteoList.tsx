@@ -45,7 +45,7 @@ export default function LocationMeteoList(props: LocationMeteoListType) {
           <LocationMeteoItem tabIndex={tabIndex} index={index} item={item} onClick={onTabClick} />
         ))}
 
-        <li>
+        <li key={locationMeteoList[tabIndex].uniqueId}>
           <ButtonBase onClick={addTab}>
             <PlusIcon
               additionalClass={`${locationMeteoStyles.iconPlus} ${locationMeteoList[0].locationName === '' ? locationMeteoStyles.iconPlusDisabled : ''}`}
